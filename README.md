@@ -37,7 +37,7 @@ setWavPlayer('/usr/bin/afplay')
 # Sample rate for Mac
 f <- 44100
 ```
-## Synthesizing basics
+## Synthesizer basics
 
 ### Playing a pure tone
 
