@@ -90,7 +90,7 @@ listen(x, f = f)
 
 ## Stochastic fugue generation
 
-## Two voice fugue with first species counterpoint
+### Two voice fugue with first species counterpoint
 May stop on a counterpoint error, rerun it until it succeeds (won't take long). Eventually, these errors will be caught and handled...
 ```r
 library(synthesizer)
