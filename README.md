@@ -6,6 +6,13 @@
 
 The synthesizer package provides functions for synthesizing melodies, chords, and stochastic compositions directly in R.
 
+## Table of contents
+1. [Installation](#installation)
+
+2. [Synthesizer basics](#synthesizer-basics)
+
+3. [Stochastic fugue generation](#stochastic-fugue-generation)
+
 ## Installation
 
 You can install the GitHub version wtih
@@ -92,6 +99,7 @@ listen(x, f = f)
 
 ### Two voice fugue with first species counterpoint
 May stop on a counterpoint error, rerun it until it succeeds (won't take long). Eventually, these errors will be caught and handled...
+Also, this is mostly set up for subjects in a major key. The function will likely error out for minor keys, or just sound awful/unintended.
 ```r
 library(synthesizer)
 library(tuneR)
