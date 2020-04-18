@@ -88,3 +88,57 @@ x <- tones(midi = midi, rhythms = r, type = "chord")
 listen(x, f = f)
 ```
 
+## Stochastic fugue generation
+
+## Two voice fugue with first species counterpoint
+May stop on a counterpoint error, rerun it until it succeeds (won't take long). Eventually, these errors will be caught and handled...
+```r
+library(synthesizer)
+library(tuneR)
+library(seewave)
+library(markovChains)
+# Set player for Windows OS
+setWavPlayer(shQuote("C:/Program Files/Windows Media Player/wmplayer.exe"))
+# Sample rate for Windows
+f <- 48000
+# Number of statements
+N <- 5
+# Fugue subject
+subject <- c(0, 2, 2, 4, 0, 4, 4, 5, 0, 5, 5, 7, 7, 7, 9, 9, 9, 7, 7, 5, 5, 4, 4, 2, 2, 0)
+# Rhythm of fugue subject
+rhythms <- 1/8
+# Register of voices
+registers <- c(48, 60)
+# Probability transition matrices
+P.voice <- rbind(c(0, 1),
+                 c(1, 0))
+
+I <- 0.1
+R <- 0.1
+RI <- 0.1
+id <- 1-(RI+I+R)
+
+P.transform <- rbind(c(id, I, R, RI),
+                     c(id, I, R, RI),
+                     c(id, I, R, RI),
+                     c(id, I, R, RI))
+keys <- c(0, 2, 4, 9, NA)
+P.key <- rbind(c(0, 0, 0, 0, 1),
+               c(0, 0, 0, 0, 1),
+               c(0, 0, 0, 0, 1),
+               c(0, 0, 0, 0, 1),
+               c(0.5, 0.1, 0.1, 0.3, 0))
+answers <- c(0, 2, 4, 5, 7)
+P.answer <- rbind(c(0, 0.1, 0.1, 0.1, 0.7),
+                  c(1, 0, 0, 0, 0),
+                  c(1, 0, 0, 0, 0),
+                  c(1, 0, 0, 0, 0),
+                  c(1, 0, 0, 0, 0)
+                  )
+transition_matrices <- list(P.voice = P.voice, P.transform = P.transform, P.key = P.key, P.answer = P.answer)
+# Generate stochastic fugue
+s <- stochasticFugue(subject = subject, rhythms = rhythms, N = N, registers = registers, transition_matrices = transition_matrices, subjectKeys = keys, answerKeys = answers)
+listen(wave = s$wave, f = f)
+```
+
+

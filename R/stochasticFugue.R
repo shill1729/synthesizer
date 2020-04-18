@@ -21,6 +21,12 @@
 #' @export stochasticFugue
 stochasticFugue <- function(subject, rhythms, N, registers, transition_matrices, subjectKeys, answerKeys, keySig = "major")
 {
+  properMatricesCheck <- all(unlist(lapply(lapply(transition_matrices, function(x) apply(x, 1, sum)), function(x) all.equal(rep(1, length(x)), x))))
+  if(!properMatricesCheck)
+  {
+    stop("One or more matrices is not stochastic; check to make sure rows sum to 1")
+  }
+
   # Extract probability transition matrices from list of transition matrices
   P.voice <- transition_matrices$P.voice
   P.transform <- transition_matrices$P.transform
@@ -103,10 +109,10 @@ stochasticFugue <- function(subject, rhythms, N, registers, transition_matrices,
           }
           if(i == 1)
           { # Bass voice should be -12
-            sample_path[[j]] <- firstSpeciesAbove(temp, key)-12 +registers[fugue_chain$voice[i]]+fugue_chain$key[j]
+            sample_path[[j]] <- firstSpeciesAbove(temp, key)$counterpoint-12 +registers[fugue_chain$voice[i]]+fugue_chain$key[j]
 
           } else{
-            sample_path[[j]] <- firstSpeciesAbove(temp, key) +registers[fugue_chain$voice[i]]+fugue_chain$key[j]
+            sample_path[[j]] <- firstSpeciesAbove(temp, key)$counterpoint +registers[fugue_chain$voice[i]]+fugue_chain$key[j]
           }
         }
       }
@@ -121,10 +127,10 @@ stochasticFugue <- function(subject, rhythms, N, registers, transition_matrices,
     print(paste("Synthesizing ", i, "-th voice", sep = ""))
     # Produce random harmonics
     K <- length(notations[[fugue_chain$voice[i]]])
-    harmonics <- list
+    harmonics <- list()
     for(j in 1:K)
     {
-      harmonics[[j]] <- c(1, stats::rbeta(max(stats::rbeta(1, 20), 1), shape1 = 0.5, shape2 = 0.9))
+      harmonics[[j]] <- c(1, stats::rbeta(max(stats::rpois(1, 20), 1), shape1 = 0.5, shape2 = 0.9))
     }
     sounds[[i]] <- tones(midi = notations[[fugue_chain$voice[i]]], rhythms = rhythms, harmonics = harmonics)
   }
@@ -142,5 +148,7 @@ stochasticFugue <- function(subject, rhythms, N, registers, transition_matrices,
     print(paste("padding", num_zeros_pad, "zeros"))
     s <- s + c(rep(0, num_zeros_pad), sounds[[i]])
   }
-  return(s)
+  print(fugue_chain)
+  output <- list(fugue_chain = fugue_chain, wave = s)
+  return(output)
 }

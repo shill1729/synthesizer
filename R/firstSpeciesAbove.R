@@ -69,7 +69,7 @@ firstSpeciesAbove <- function(cantusFirmus, key)
       counterpoint[i] <- sample(noteSet, size = 1)
     } else if(length(noteSet) == 1)
     {
-      countpoint[i] <- noteSet
+      counterpoint[i] <- noteSet
     } else if(length(noteSet) == 0)
     {
       stop("No legal counterpoint notes")
