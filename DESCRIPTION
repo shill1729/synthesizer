@@ -8,7 +8,7 @@ Description: Synthesize soundwaves and stochastic compositions using R functions
     Features include producing stochastic fugues, counterpoint, minimalist compositions and random harmonics, rhythms and pitches
     according to Markov chains or other stochastic processes like random walks and Brownian motions.
 License: MIT + file LICENSE
-Imports: stats, markovChains, seewave
+Imports: stats, markovChains, seewave, tuneR
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.2

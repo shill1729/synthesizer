@@ -4,7 +4,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of synthesizer is to ...
+The synthesizer package provides functions for synthesizing melodies, chords, and stochastic compositions directly in R.
 
 ## Installation
 
@@ -14,9 +14,9 @@ You can install the GitHub version wtih
 devtools::install_github(shill1729/synthesizer)
 ```
 
-## Example
+## Setting up
 
-This is a basic example which shows you how to solve a common problem:
+How to set up for usage:
 
 ``` r
 library(synthesizer)
@@ -29,4 +29,3 @@ f <- 48000
 setWavPlayer('/usr/bin/afplay')
 f <- 44100
 ```
-
