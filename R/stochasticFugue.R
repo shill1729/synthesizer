@@ -59,39 +59,54 @@ stochasticFugue <- function(subject, rhythms, N, registers, transition_matrices,
     for(j in 1:N)
     {
       print(paste("On statement", j))
+      # Find out if we are in a major or minor key
+      if(fugue_chain$key[j] %in% c(2, 4, 9))
+      {
+        print("minor key")
+        key <- getKey("minor")
+        keyChange <- "major"
+      } else if(fugue_chain$key[j] %in% c(0, 5, 7))
+      {
+        key <- getKey("major")
+        keyChange <- "minor"
+      }
+      temp <- subject
+      # If we are modulated to ii, iii, or vi, make sure to modulate major-minor notes
+      if((fugue_chain$key[j] == 4 || fugue_chain$key[j] == 9 || fugue_chain$key[j] == 2) && keySig == "major")
+      {
+        for(l in 1:length(temp))
+        {
+          if(temp[l] == 4 || temp[l] == 9)
+          {
+            temp[l] <- temp[l]-1
+          }
+        }
+      }
+      transformation <- identity
+      print(paste(keyChange, "to opposte"))
+      # Check which transformation should be applied
+      if(fugue_chain$transform[j] == "retrograde")
+      {
+        transformation <- rev
+      } else if(fugue_chain$transform[j] == "inversion")
+      {
+        transformation <- function(x) adjustTonality(midiPitchInvert(x, axis = registers[fugue_chain$voice[j]]), keyChange)
+      } else if(fugue_chain$transform[j] == "retrograde-inversion")
+      {
+        transformation <- function(x) adjustTonality(rev(midiPitchInvert(x, axis = registers[fugue_chain$voice[j]])), keyChange)
+      } else if(fugue_chain$transform[j] == "id")
+      {
+        transformation <- identity
+      }
       # If the current voice is stating the fugue,
       if(fugue_chain$voice[j] == i)
       {
-        print(paste("VOice", i, "is stating the fugue subject (again)"))
+        print(paste("Voice", i, "is stating the fugue subject (again)"))
         hasStated[i] <- TRUE
-        temp <- subject
-        # If we are modulated to ii, iii, or vi, make sure to modulate major-minor notes
-        if((fugue_chain$key[j] == 4 || fugue_chain$key[j] == 9 || fugue_chain$key[j] == 2) && keySig == "major")
-        {
-          for(l in length(temp))
-          {
-            if(temp[l] == 4 || temp[l] == 9)
-            {
-              temp[l] <- temp[l]-1
-            }
-          }
-        }
+
         # Add the subject in the correct register with key-modulation
         sample_path[[j]] <- temp +registers[fugue_chain$voice[j]] +fugue_chain$key[j]
-        # Check which transformation should be applied
-        if(fugue_chain$transform[j] == "retrograde")
-        {
-          transformation <- rev
-        } else if(fugue_chain$transform[j] == "inversion")
-        {
-          transformation <- function(x) midiPitchInvert(x, axis = registers[fugue_chain$voice[j]])
-        } else if(fugue_chain$transform[j] == "retrograde-inversion")
-        {
-          transformation <- function(x) rev(midiPitchInvert(x, axis = registers[fugue_chain$voice[j]]))
-        } else if(fugue_chain$transform[j] == "id")
-        {
-          transformation <- identity
-        }
+
         # Transform the subject
         sample_path[[j]] <- transformation(sample_path[[j]])
 
@@ -100,19 +115,26 @@ stochasticFugue <- function(subject, rhythms, N, registers, transition_matrices,
         if(hasStated[i] && i != fugue_chain$voice[j])
         {
           print(paste("voice", i, "has stated, creating counterpoint now"))
-          if(fugue_chain$key[j] %in% c(2, 4, 9))
-          {
-            key <- getKey("minor")
-          } else
-          {
-            key <- getKey("major")
-          }
+          fixInversions <- 12*ifelse(fugue_chain$transform[j]=="inversion"||fugue_chain$transform[j]=="retrograde-inversion", 1, 0)
+
+
+          print("Original subject")
+          print(subject)
+          print(fugue_chain[j,])
+          print(paste("Fix inversion by", fixInversions))
+          print("Tonality adjusted subject")
+          print(temp)
+          print("Transformation adjusted subject")
+          print(transformation(temp+registers[fugue_chain$voice[j]])-registers[fugue_chain$voice[j]])
+          print("Transformation adjusted subject with inversion fix")
+          print(transformation(temp+registers[fugue_chain$voice[j]])-registers[fugue_chain$voice[j]]+fixInversions)
+
           if(i == 1)
           { # Bass voice should be -12
-            sample_path[[j]] <- firstSpeciesAbove(temp, key)$counterpoint-12 +registers[fugue_chain$voice[i]]+fugue_chain$key[j]
+            sample_path[[j]] <- firstSpeciesAbove(transformation(temp+registers[fugue_chain$voice[j]])-registers[fugue_chain$voice[j]]+fixInversions, key)$counterpoint-12 +registers[i]+fugue_chain$key[j]
 
           } else{
-            sample_path[[j]] <- firstSpeciesAbove(temp, key)$counterpoint +registers[fugue_chain$voice[i]]+fugue_chain$key[j]
+            sample_path[[j]] <- firstSpeciesAbove(transformation(temp+registers[fugue_chain$voice[j]])-registers[fugue_chain$voice[j]]+fixInversions, key)$counterpoint +registers[i]+fugue_chain$key[j]
           }
         }
       }

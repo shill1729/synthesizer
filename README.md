@@ -4,7 +4,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The synthesizer package provides functions for synthesizing melodies, chords, and stochastic compositions directly in R.
+The synthesizer package provides functions for synthesizing melodies, chords, and stochastic compositions directly in R. Note that this project is a *work in progress* and will likely be missing features for quite some time.
 
 ## Table of contents
 1. [Installation](#installation)
@@ -110,9 +110,9 @@ setWavPlayer(shQuote("C:/Program Files/Windows Media Player/wmplayer.exe"))
 # Sample rate for Windows
 f <- 48000
 # Number of statements
-N <- 5
+N <- 10
 # Fugue subject
-subject <- c(0, 2, 2, 4, 0, 4, 4, 5, 0, 5, 5, 7, 7, 7, 9, 9, 9, 7, 7, 5, 5, 4, 4, 2, 2, 0)
+subject <- c(0, 4, 7, 9, 7, 5, 5, 4, 2, 0)
 # Rhythm of fugue subject
 rhythms <- 1/8
 # Register of voices
@@ -135,7 +135,7 @@ P.key <- rbind(c(0, 0, 0, 0, 1),
                c(0, 0, 0, 0, 1),
                c(0, 0, 0, 0, 1),
                c(0, 0, 0, 0, 1),
-               c(0.5, 0.1, 0.1, 0.3, 0))
+               c(0.7, 0.1, 0.1, 0.1, 0))
 answers <- c(0, 2, 4, 5, 7)
 P.answer <- rbind(c(0, 0.1, 0.1, 0.1, 0.7),
                   c(1, 0, 0, 0, 0),

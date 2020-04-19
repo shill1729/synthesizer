@@ -16,7 +16,7 @@ firstSpeciesAbove <- function(cantusFirmus, key)
   pitchList <- 0:(length(noteNames)-1) # Up to the tenth
 
   # Allowed harmonic intervals between voices: no unisons, seconds, fourths, tritones, 7ths, octaves or 9ths
-  H <- setdiff(pitchList, c(0, 1, 2, 5, 6, 10, 11, 12, 13, 14))
+  H <- setdiff(pitchList, c(0, 1, 2, 5, 6, 10, 11, 12, 13, 14, 17, 18, 22))
   # Allowed melodic steps: no tritones or 7ths
   M <- setdiff(Z12, c(6, 10, 11))
 
@@ -47,21 +47,37 @@ firstSpeciesAbove <- function(cantusFirmus, key)
 
     # Checking rules are followed:
     # 1. Mind the tenth
-    if(length(which(noteSet - x < 16)) > 0)
+    if(length(which(noteSet - x < 16+12)) > 0)
     {
       # Keep only notes that are within a 10th of the current cantus firmus note
       noteSet <- noteSet[which(noteSet-x < 16)]
     }
+    if(length(noteSet) == 0 || is.null(noteSet))
+    {
+      stop("No legal counterpoint notes within a 10th + octave")
+    }
+
     # 2. Prevent voice crossing
     if(length(which(noteSet-x>0))>0)
     {
       noteSet <- noteSet[which(noteSet-x >0)]
     }
+    if(length(noteSet) == 0 || is.null(noteSet))
+    {
+      stop("No legal counterpoint notes that do not cross voices")
+    }
+
+
     # 3. No parallel 5ths or direct motion
     if(y-cantusFirmus[i-1]==7)
     {
       noteSet <- noteSet[-which(noteSet-x==7)]
     }
+    if(length(noteSet) == 0 || is.null(noteSet))
+    {
+      stop("No legal counterpoint notes that do not cause parallel 5ths")
+    }
+
 
     # Finally compose the counterpoint note by note
     if(length(noteSet)> 1)
@@ -72,7 +88,7 @@ firstSpeciesAbove <- function(cantusFirmus, key)
       counterpoint[i] <- noteSet
     } else if(length(noteSet) == 0)
     {
-      stop("No legal counterpoint notes")
+      stop("No legal counterpoint notes after all rules enforced")
     }
   }
   piece <- rbind(counterpoint = counterpoint,
