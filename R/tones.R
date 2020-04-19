@@ -28,6 +28,10 @@ tones <- function(midi, rhythms, harmonics = c(1, 0.5, 0.25), type = "melody", n
   {
     r <- rhythms
   }
+  if(length(r) != m)
+  {
+    stop(paste("Number of midi notes", m, "does not match number of durations", length(r)))
+  }
   # Synthesize each pitch into a list
   x <- list()
   for(i in 1:m)

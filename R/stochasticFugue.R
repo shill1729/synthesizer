@@ -142,8 +142,10 @@ stochasticFugue <- function(subject, rhythms, N, registers, transition_matrices,
     # Put all statements/counterpoint into one long midi vector for each voice
     notations[[i]] <- unlist(sample_path)
   }
+
   # Find first statement
   first_statement <- fugue_chain$voice[1]
+  # Loop through each voice and compute their entire sample path of sounds
   for(i in 1:m)
   {
     print(paste("Synthesizing ", i, "-th voice", sep = ""))
@@ -154,7 +156,17 @@ stochasticFugue <- function(subject, rhythms, N, registers, transition_matrices,
     {
       harmonics[[j]] <- c(1, stats::rbeta(max(stats::rpois(1, 20), 1), shape1 = 0.5, shape2 = 0.9))
     }
-    sounds[[i]] <- tones(midi = notations[[fugue_chain$voice[i]]], rhythms = rhythms, harmonics = harmonics)
+    # String together rhythms if they are not constant, so that the number of durations matches the number of notes_in_subject*number_of_statements
+    rhythmPass <- rhythms
+    if(length(rhythms) > 1)
+    {
+      w <- length(notations[[i]])/length(rhythms)
+      for(l in 1:(w-1))
+      {
+        rhythmPass <- c(rhythmPass, rhythms)
+      }
+    }
+    sounds[[i]] <- tones(midi = notations[[fugue_chain$voice[i]]], rhythms = rhythmPass, harmonics = harmonics)
   }
   # Now for combining it all into one sound sample
   s <- sounds[[fugue_chain$voice[1]]]

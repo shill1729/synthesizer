@@ -112,9 +112,12 @@ f <- 48000
 # Number of statements
 N <- 10
 # Fugue subject
-subject <- c(0, 4, 7, 9, 7, 5, 5, 4, 2, 0)
+subject <- c(0, 2, 4, 5, 4, 2, 0)
 # Rhythm of fugue subject
 rhythms <- 1/8
+# Try also random rhythms
+# rhythms <- rexp(n = length(subject), rate = 4)
+
 # Register of voices
 registers <- c(48, 60)
 # Probability transition matrices
