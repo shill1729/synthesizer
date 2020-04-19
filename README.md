@@ -4,7 +4,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The synthesizer package provides functions for synthesizing melodies, chords, and stochastic compositions directly in R. Note that this project is a *work in progress* and will likely be missing features for quite some time.
+The synthesizer package provides functions for synthesizing melodies, chords, and stochastic compositions directly in R. Note that this project is a *work in progress* and will likely be missing features for quite some time and errors will propagate in e.g. counterpoint functions that will simply break the program rather than handled in the global composer-function call.
 
 ## Table of contents
 1. [Installation](#installation)
