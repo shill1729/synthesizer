@@ -15,11 +15,13 @@ The synthesizer package provides functions for synthesizing melodies, chords, an
 
 ## Installation
 
-You can install the GitHub version wtih
+You can install the GitHub version with
 
 ``` r
-devtools::install_github(shill1729/synthesizer)
+devtools::install_github("shill1729/synthesizer")
 ```
+
+You will also need to installl "seewave", "tuneR", and **[markovChains](https://github.com/shill1729/markovChains)**.
 
 ## Setting up
 
