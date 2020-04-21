@@ -52,7 +52,7 @@ library(markovChains)
 setWavPlayer(shQuote("C:/Program Files/Windows Media Player/wmplayer.exe"))
 # Sample rate for Windows
 f <- 48000
-# Play middle C for one second
+# Play middle C for one measure
 x <- tone(midi = 60, rhythm = 1)
 listen(x, f = f)
 ```
