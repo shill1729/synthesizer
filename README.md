@@ -36,6 +36,8 @@ How to set up for usage:
 
 ``` r
 library(synthesizer)
+library(seewave)
+library(tuneR)
 # Set player for Windows OS
 setWavPlayer(shQuote("C:/Program Files/Windows Media Player/wmplayer.exe"))
 # Sample rate for Windows
