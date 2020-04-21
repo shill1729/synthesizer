@@ -23,7 +23,7 @@ devtools::install_github("shill1729/synthesizer")
 
 You will also need to installl "seewave", "tuneR", and **[markovChains](https://github.com/shill1729/markovChains)**.
 
-The former two can be installed via CRAN while the later through GitHub
+The former two can be installed via CRAN while the latter through GitHub
 ``` r
 install.packages("seewave")
 install.packages("tuneR")
