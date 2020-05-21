@@ -1,7 +1,8 @@
+# library(synthesizer)
 # root <- 60
 # mode <- "dorian"
 # cf <- c(0, 3, 2, 0, 5, 3, 7, 5, 3, 2, 0)+root
-# n <- length(n)
+# n <- length(cf)
 # # Initialize
 # cpt <- initialize_above(cf, mode, root)
 # i <- 2
