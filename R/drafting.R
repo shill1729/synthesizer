@@ -3,8 +3,8 @@
 # cf <- c(0, 3, 2, 0, 5, 3, 7, 5, 3, 2, 0)+root
 # n <- length(n)
 # # Initialize
-# # cpt <- initialize_above(cf, mode)
-# i <- 3
+# cpt <- initialize_above(cf, mode, root)
+# i <- 2
 # # Generate choices within a tenth of the cantus firmus
 # cpt_targets <- gen_cpt_choices(cpt[i-1], cpt[i-1]-cf[i-1], cf[i], root, mode)
 # analyses <- analyze_current(i, cpt_targets, cpt, cf)
