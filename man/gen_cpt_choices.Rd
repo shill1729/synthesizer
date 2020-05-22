@@ -4,7 +4,7 @@
 \alias{gen_cpt_choices}
 \title{Generate possible counterpoint choices}
 \usage{
-gen_cpt_choices(prev_note, prev_harmony, cf, root, mode)
+gen_cpt_choices(prev_note, prev_harmony, cf, root, mode, voice = "above")
 }
 \arguments{
 \item{prev_note}{previous counterpoint note}
@@ -16,6 +16,8 @@ gen_cpt_choices(prev_note, prev_harmony, cf, root, mode)
 \item{root}{the root of the exercise}
 
 \item{mode}{the mode of the exercise}
+
+\item{voice}{above or below the cantus firmus}
 }
 \value{
 vector

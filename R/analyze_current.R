@@ -4,17 +4,18 @@
 #' @param cpt_targets the set of vectors of possible counterpoint targets
 #' @param cpt the vector of counterpoint notes
 #' @param cf the vector of cantus firmus notes
+#' @param voice above or below
 #'
 #' @description {Produce analyses of each counterpoint choice}
 #' @return data.frame
 #' @export analyze_current
-analyze_current <- function(i, cpt_targets, cpt, cf)
+analyze_current <- function(i, cpt_targets, cpt, cf, voice = "above")
 {
   # Analyze each target with up to the current note being written
   analyses <- list()
   for(j in 1:length(cpt_targets))
   {
-    analyses[[j]] <- analyze_exercise_above(c(cpt[1:(i-1)], cpt_targets[j]), cf[1:i])
+    analyses[[j]] <- analyze_exercise(c(cpt[1:(i-1)], cpt_targets[j]), cf[1:i], voice)
   }
   return(analyses)
 }

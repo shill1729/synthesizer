@@ -4,7 +4,7 @@
 \alias{analyze_current}
 \title{Produce analyses of each counterpoint choice}
 \usage{
-analyze_current(i, cpt_targets, cpt, cf)
+analyze_current(i, cpt_targets, cpt, cf, voice = "above")
 }
 \arguments{
 \item{i}{the index of the current note}
@@ -14,6 +14,8 @@ analyze_current(i, cpt_targets, cpt, cf)
 \item{cpt}{the vector of counterpoint notes}
 
 \item{cf}{the vector of cantus firmus notes}
+
+\item{voice}{above or below}
 }
 \value{
 data.frame

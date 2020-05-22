@@ -2,13 +2,21 @@
 #'
 #' @param cpt the vector of counterpoint
 #' @param cf the vector of the cantus firmus
+#' @param voice above or below the cantus firmus
 #'
 #' @description {Creates a data.frame describing the characteristics of the exercise.}
 #' @return data.frame
-#' @export analyze_exercise_above
-analyze_exercise_above <- function(cpt, cf)
+#' @export analyze_exercise
+analyze_exercise <- function(cpt, cf, voice = "above")
 {
-  h12 <- cpt-cf
+  if(voice == "above")
+  {
+    h12 <- cpt-cf
+  } else if(voice == "below")
+  {
+    h12 <- cf-cpt
+  }
+
   cpt_step <- c(0, diff(cpt))
   cpt_sign <- c(0, sign(diff(cpt)))
   cf_step <- c(0, diff(cf))

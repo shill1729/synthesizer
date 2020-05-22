@@ -9,7 +9,7 @@ classify_motion1 <- function(cpt_step, cf_step)
 {
   if(cpt_step == 0 && cf_step == 0)
   {
-    return("initial")
+    return("oblique")
   } else if(sign(cpt_step) == sign(cf_step))
   {
     return("direct")

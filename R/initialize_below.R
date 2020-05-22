@@ -4,19 +4,19 @@
 #' @param mode the mode to compose in
 #' @param root the root note in mod 127 the exercise is composed in
 #'
-#' @description {Initialize a counterpoint above the cantus firmus}
+#' @description {Initialize a counterpoint below the cantus firmus}
 #' @return vector
-#' @export initialize_above
-initialize_above <- function(cf, mode, root)
+#' @export initialize_below
+initialize_below <- function(cf, mode, root)
 {
   # Get length of cantus firmus in number of notes
   n <- length(cf)
   # Initialize counterpoint
   cpt <- matrix(0, nrow = n)
-  # First note is either unison, p5, or p8
-  cpt[1] <- root+sample(c(0, 7, 12), size = 1)
+  # First note is either unison, or p8 below
+  cpt[1] <- root-sample(c(0, 12), size = 1)
   # Last note is p8
-  cpt[n] <- root+12
+  cpt[n] <- root-12
   if (mode %in% c("phrygian", "locrian")) {
     penultimate_step <- 2
   } else if (mode %in% c("ionian", "dorian", "lydian", "mixolydian",
