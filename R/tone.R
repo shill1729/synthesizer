@@ -38,3 +38,4 @@ tone <- function(midi, rhythm, harmonics = 1, n = 4, bpm = 120, sampleRate = 480
   return(s)
 }
 
+

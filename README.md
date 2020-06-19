@@ -106,6 +106,34 @@ x <- tones(midi = midi, rhythms = r, type = "chord")
 listen(x, f = f)
 ```
 
+## Poisson processes
+Subjecting the number of chord changes over time to follow a Poisson process, identifying the waiting times between arrivals of the Poisson process with the durations of the chords.
+```r
+library(synthesizer)
+library(markovChains)
+library(tuneR)
+library(seewave)
+# Set player for Windows OS
+setWavPlayer(shQuote("C:/Program Files/Windows Media Player/wmplayer.exe"))
+# Sample rate for Windows
+sampleRate <- 48000
+# Possible chords to transition between: C, F/C, Dm7/C
+chord_states <- list(c(60, 64, 67), c(60, 65, 69), c(60, 62, 65))
+# Probability transition matrix
+p <- 0.6
+P <- rbind(c(0, p, 1-p),
+           c(p, 0, 1-p),
+           c(1-p, p, 0)
+# Initial distribution
+initial_chord <- c(1, rep(0, 2))
+# duration of progression and mean number of changes
+tt <- 10 # in measures
+lambda <- 4 # changes per measure
+# Default n = 4 for 4/4 time and bpm = 120
+cprog <- poisson_chords(10, 4, chord_states, P, initial_chord)
+listen(cprog, f = sampleRate)
+```
+
 ## Stochastic fugue generation
 
 ### Two voice fugue with first species counterpoint
