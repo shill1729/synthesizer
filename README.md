@@ -130,7 +130,7 @@ initial_chord <- c(1, rep(0, 2))
 tt <- 10 # in measures
 lambda <- 4 # changes per measure
 # Default n = 4 for 4/4 time and bpm = 120
-cprog <- poisson_chords(10, 4, chord_states, P, initial_chord)
+cprog <- poisson_chords(tt, lambda, chord_states, P, initial_chord)
 listen(cprog, f = sampleRate)
 ```
 
