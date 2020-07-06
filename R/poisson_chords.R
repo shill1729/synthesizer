@@ -19,7 +19,7 @@ poisson_chords <- function(t, lambda, chord_states, P, initial_chord, harmonics 
 
   # In measures and number of notes per measure
   durations <- poisson_durations(t, lambda)
-  print(paste("Piece length in seconds =", sum(durations)*n/bpm))
+  print(paste("Piece length in seconds =", 60*sum(durations)*n/bpm))
   N <- length(durations)
   chord_chain <- markovChains::rdtmc(N, P, mu = initial_chord)
   chords <- chord_states[chord_chain$state]

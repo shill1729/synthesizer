@@ -123,7 +123,7 @@ chord_states <- list(c(60, 64, 67), c(60, 65, 69), c(60, 62, 65))
 p <- 0.6
 P <- rbind(c(0, p, 1-p),
            c(p, 0, 1-p),
-           c(1-p, p, 0)
+           c(1-p, p, 0))
 # Initial distribution
 initial_chord <- c(1, rep(0, 2))
 # duration of progression and mean number of changes
