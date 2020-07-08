@@ -25,9 +25,9 @@ entryExitQ <- function(num_voices, bd_rates)
   Q_ee <- markovChains::birth_death_Q(up, down, num_voices+1)
   diag(Q_ee) <- c(rep(-(up+down+rest), num_voices+1))
   Q_ee[2, 2] <- -(up+down)
-  Q_ee[1,] <- c(-(num_voices)*rest_any, rep(rest_any, num_voices))
+  Q_ee[1,] <- c(-rest_any, rep(rest_any/num_voices, num_voices))
   Q_ee[-c(1:2), 1] <- rest
-  Q_ee[num_voices+1, ] <- c(rest, rep(full_any, num_voices-1), -((num_voices-1)*full_any+rest))
+  Q_ee[num_voices+1, ] <- c(rest, rep(full_any/(num_voices-1), num_voices-1), -(full_any+rest))
   if(all.equal(sum(apply(Q_ee, 1, sum)), 0))
   {
     return(Q_ee)
@@ -191,7 +191,12 @@ random_harmonics <- function(synthInput, lambdaRange, betaRange)
 #' @export minimal_voice
 minimal_voice <- function(initial_voice, P, W, n, nb, bpm, harmonicParams, state_lengths, melody_states, rhythm_states)
 {
-  voiceRep <- markovChains::rdtmc(n, P, c(1, rep(0, state_lengths[initial_voice]-1)))
+  # Random initial melody-state
+  initial_distr <- rep(0, state_lengths[initial_voice])
+  id_index <- sample_one(1:state_lengths[initial_voice])
+  initial_distr[id_index] <- 1
+
+  voiceRep <- markovChains::rdtmc(n, P, initial_distr)
   pitches <- unlist(melody_states[[initial_voice]][voiceRep$state])
   rhythms <- unlist(rhythm_states[[initial_voice]][voiceRep$state])
   cutOffIndex <- which.max(cumsum(rhythms) > W)
